@@ -87,9 +87,6 @@ const actions = {
         } catch (error) {
             console.log(error)
             commit("SET_ERROR", { error: error })
-            store.dispatch('userModule/login', {
-                user:user
-              })
         }
     },
     login: async function ({ commit }, user) {
