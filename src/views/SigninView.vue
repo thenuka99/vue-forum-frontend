@@ -214,7 +214,7 @@ export default {
             if (!this.user.email) {
                 this.errors.push('Email required.');
             } else {
-                this.$store.dispatch("userModule/login", this.user)
+                this.$store.dispatch("login", this.user)
                 return this.$router.push("/");
             }
 

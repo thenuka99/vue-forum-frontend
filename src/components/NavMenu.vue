@@ -129,12 +129,12 @@ export default {
   data() {},
   methods: {
     logout: async function () {
-      this.$store.dispatch("userModule/logout");
+      this.$store.dispatch("logout");
       return this.$router.push("/signin");
     },
   },
   computed: mapGetters({
-    userState: "userModule/getUserState",
+    userState: "getUserState",
   }),
 };
 </script>

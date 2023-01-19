@@ -126,7 +126,7 @@
     methods: {
       login: async function () {
         console.log(this.$store)
-      this.$store.dispatch("userModule/signup",this.user)
+      this.$store.dispatch("signup",this.user)
       return this.$router.push("/");
     },
     }
