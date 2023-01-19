@@ -1,4 +1,4 @@
-import { axios } from "axios";
+import  axios  from "axios";
 
 export class UserService{
     static serverURL = 'http://localhost:5000';

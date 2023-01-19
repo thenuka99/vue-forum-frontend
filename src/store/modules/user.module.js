@@ -92,9 +92,8 @@ const actions = {
     login: async function ({ commit }, user) {
         try {
             let response = await AuthService.login(user);
-            console.log("token-----", response.data)
             commit("SET_TOKEN", { token: response.data.data })
-            store.dispatch('userModule/getUser',{
+            store.dispatch('getUser',{
                 token:response.data.data
               })
         } catch (error) {
@@ -106,7 +105,6 @@ const actions = {
         commit("SET_LOGGED_USER", { contact: null });
     },
     getUser: async function({commit},token){
-        console.log("no",token)
         try {
             let response = await AuthService.getUserDetails(token);
             console.log("user----", response.data)

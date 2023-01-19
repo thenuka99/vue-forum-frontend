@@ -1,6 +1,9 @@
-import { axios } from "axios";
-import { store } from "../store/index";
-axios.interceptors.request.use(req => {
+import  axios  from "axios";
+import store from "../store/index";
+
+ const axiosInstance = axios.create()
+
+axiosInstance.interceptors.request.use(req => {
     var userObj = store.getters.getUserState.user;
     if (userObj != null) {
         var accessToken = store.getters.getUserState.token;
@@ -8,6 +11,10 @@ axios.interceptors.request.use(req => {
     }
     console.log('INTERCEPTED');
     return req;
+},
+(error) => {
+  // Do something with request error
+  return Promise.reject(error);
 });
 
 export class CategoryService{
