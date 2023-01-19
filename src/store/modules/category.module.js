@@ -26,7 +26,7 @@ const mutations = {
     SET_CATEGORISE: function (state, payload) {
         state.categoryList.categories = payload.categories;
     },
-    SET_LOGGED_CATEGORY: function (state, payload) {
+    SET_CATEGORY: function (state, payload) {
         state.categoryList.category = payload.category;
     },
     SET_ERROR: function (state, payload) {
@@ -65,6 +65,17 @@ const actions = {
         } catch (error) {
             console.log(error)
             commit("SET_ERROR", { error: error })
+        }
+    },getCategory: async function ({ commit },id) {
+        try {
+            commit("SET_LOADING", true);
+            let response = await CategoryService.getCategory(id);
+            console.log(response)
+            commit("SET_CATEGORY", { category: response.data });
+            commit("SET_LOADING", false);
+        } catch (error) {
+            commit("SET_ERROR", { error: error });
+            commit("SET_LOADING", false);
         }
     },
 }
