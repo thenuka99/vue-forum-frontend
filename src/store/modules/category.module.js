@@ -41,7 +41,7 @@ const actions = {
             commit("SET_LOADING", true);
             let response = await CategoryService.getAllCategories();
             console.log(response)
-            commit("SET_CATEGORISE", { categories: response.data });
+            commit("SET_CATEGORISE", { categories: response.data.data });
             commit("SET_LOADING", false);
         } catch (error) {
             commit("SET_ERROR", { error: error });

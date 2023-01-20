@@ -1,19 +1,14 @@
 import  axios  from "axios";
 import store from "../store/index";
 
- const axiosInstance = axios.create()
 
-axiosInstance.interceptors.request.use(req => {
-    var userObj = store.getters.getUserState.user;
-    if (userObj != null) {
+axios.interceptors.request.use(req => {
         var accessToken = store.getters.getUserState.token;
         req.headers.Authorization = `Bearer ${accessToken}`;
-    }
     console.log('INTERCEPTED');
     return req;
 },
 (error) => {
-  // Do something with request error
   return Promise.reject(error);
 });
 
