@@ -81,7 +81,7 @@ const actions = {
         try {
             let response = await AuthService.signup(user);
             console.log(response)
-            store.dispatch('userModule/login', {
+            store.dispatch('login', {
                 user:user
               })
         } catch (error) {
@@ -93,9 +93,8 @@ const actions = {
         try {
             let response = await AuthService.login(user);
             commit("SET_TOKEN", { token: response.data.data })
-            store.dispatch('getUser',{
-                token:response.data.data
-              })
+            store.dispatch('getUser',{ token:response.data.data})
+            store.dispatch('getAllCategories')
         } catch (error) {
             console.log(error)
             commit("SET_ERROR", { error: error })
