@@ -40,7 +40,7 @@ const actions = {
         try {
             commit("SET_LOADING", true);
             let response = await PostService.getAllPosts();
-            console.log(response)
+            console.log("post---",response)
             commit("SET_POSTS", { posts: response.data.data });
             commit("SET_LOADING", false);
         } catch (error) {

@@ -94,7 +94,6 @@ const actions = {
             let response = await AuthService.login(user);
             commit("SET_TOKEN", { token: response.data.data })
             store.dispatch('getUser',{ token:response.data.data})
-            store.dispatch('getAllCategories')
         } catch (error) {
             console.log(error)
             commit("SET_ERROR", { error: error })

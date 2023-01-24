@@ -16,6 +16,18 @@ const routes = [
     meta:{auth:true}
   },
   {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('../views/ProfileView.vue'),
+    meta:{auth:true}
+  },
+  {
+    path: '/addforum',
+    name: 'addforum',
+    component: () => import('../views/AddPostView.vue'),
+    meta:{auth:true}
+  },
+  {
     path: '/signup',
     name: 'signup',
     component: () => import('../views/SignupView.vue'),
@@ -27,6 +39,11 @@ const routes = [
     component: () => import('../views/SigninView.vue'),
     meta:{auth:false}
   },
+  {
+    path: '/loading',
+    name: 'loading',
+    component: () => import('../components/LoaderComponent.vue'),
+  },
 ]
 
 const router = createRouter({
@@ -37,6 +54,8 @@ const router = createRouter({
 router.beforeEach((to,from,next)=>{
   if(to.meta.auth && !store.getters.getUserState.user){
     next('/signin')
+  }else if(store.getters.getUserState.isLoading || store.getters.getCategoryState.isLoading || store.getters.getPostState.isLoading){
+    next('/loading')
   }else if(!to.meta.auth && store.getters.getUserState.user){
     next('/')
   }else{
