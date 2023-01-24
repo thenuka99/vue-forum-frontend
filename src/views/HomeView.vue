@@ -6,9 +6,9 @@
     laboriosam. Molestiae, similique.
   </div>
   <div class="div flex flex-row-reverse ml-4">
-      <button class="btn p-3 mx-5 mt-4 bg-green-500 rounded-xl" @click="addforum">
-        <router-link to="/addforum"><i class="fa fa-add"></i> add new forum</router-link>
-      </button>
+    <button class="btn p-3 mx-5 mt-4 bg-green-500 rounded-xl">
+      <router-link to="/addforum"><i class="fa fa-add"></i> add new forum</router-link>
+    </button>
   </div>
   <div>
     <!-- content -->
@@ -66,10 +66,7 @@ export default {
     this.$store.dispatch("getAllCategories");
     this.$store.dispatch("getAllPosts");
   },
-  methods:{
-    addforum(){
-      return this.$router.push("/addforum");
-    }
+  methods: {
   }
 };
 </script>

@@ -1,6 +1,7 @@
 import { AuthService } from "@/services/AuthService";
 import { UserService } from "@/services/UserService";
 import store from "..";
+import notify from "notiwind"
 
 // initial state
 const state = () => ({
@@ -94,9 +95,17 @@ const actions = {
             let response = await AuthService.login(user);
             commit("SET_TOKEN", { token: response.data.data })
             store.dispatch('getUser',{ token:response.data.data})
+            notify({
+                title: "Success",
+                text: "Your account was registered!"
+              }, 2000) // 2s
         } catch (error) {
             console.log(error)
             commit("SET_ERROR", { error: error })
+            notify({
+                title: "erroe",
+                text: "error"
+              }, 2000)
         }
     },
     logout: async function ({ commit }) {
