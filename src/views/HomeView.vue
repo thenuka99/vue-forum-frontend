@@ -34,10 +34,10 @@
                   post.votes.length
                 }} | <i class="fa fa-comment"></i> {{ post.comments.length }}</p>
               </div>
-              <div class="w-full">
-                <p>{{ post.updatedOn }}</p>
+              <div class="w-full  overflow-hidden text-xs">
+                <p class=" text-right">{{ formatDate(post.updatedAt) }}</p>
                 <img class="h-10 w-10 rounded-full float-right"
-                  src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png" alt="" />
+                  :src="post.addedBy.imageurl" alt="" />
               </div>
             </li>
           </ul>
@@ -49,7 +49,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import "../assets/tailwind.css";
+import moment from 'moment'
 export default {
   name: "HomeView",
   data() {
@@ -67,6 +67,11 @@ export default {
     this.$store.dispatch("getAllPosts");
   },
   methods: {
+     formatDate(value) {
+      if (value) {
+        return moment(String(value)).format('MMMM Do YYYY, h:mm:ss a')
+      }
+    }
   }
 };
 </script>

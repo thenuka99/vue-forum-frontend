@@ -54,8 +54,8 @@ const router = createRouter({
 router.beforeEach((to,from,next)=>{
   if(to.meta.auth && !store.getters.getUserState.user){
     next('/signin')
-  }else if(store.getters.getUserState.isLoading || store.getters.getCategoryState.isLoading || store.getters.getPostState.isLoading){
-    next('/loading')
+  // }else if(store.getters.getUserState.isLoading || store.getters.getCategoryState.isLoading || store.getters.getPostState.isLoading){
+  //   next('/loading')
   }else if(!to.meta.auth && store.getters.getUserState.user){
     next('/')
   }else{
