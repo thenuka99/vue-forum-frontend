@@ -65,13 +65,11 @@ export default {
         email: "janithherath4@gmail.com",
         password: "1234",
       },
-      errors: "",
     };
   },
   methods: {
     login: async function () {
       this.$store.dispatch("login", this.user)
-      return this.$router.push("/loading");
     },
   },
   computed: mapGetters({

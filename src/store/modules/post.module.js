@@ -1,5 +1,6 @@
 import { PostService } from "@/services/PostService";
 import store from "..";
+import router from "@/router";
 
 // initial state
 const state = () => ({
@@ -62,6 +63,7 @@ const actions = {
             let response = await PostService.updatePost(post, post.id);
             store.dispatch(this.getAllPosts)
             console.log(response)
+            return router.push("/");
         } catch (error) {
             console.log(error)
             commit("SET_ERROR", { error: error })
@@ -79,6 +81,18 @@ const actions = {
             commit("SET_LOADING", false);
         }
     },
+    createPost:async function({commit},post){
+        try {
+            commit("SET_LOADING", true);
+            let response = await PostService.createPost(post);
+            console.log(response)
+            commit("SET_LOADING", false);
+            return router.push("/");
+        } catch (error) {
+            commit("SET_ERROR", { error: error });
+            commit("SET_LOADING", false);
+        }
+    }
 }
 
 export default {
