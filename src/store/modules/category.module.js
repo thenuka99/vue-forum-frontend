@@ -78,6 +78,18 @@ const actions = {
             commit("SET_LOADING", false);
         }
     },
+    createCategory:async function({commit},category){
+        try {
+            commit("SET_LOADING", true);
+            let response = await CategoryService.createCategory(category);
+            console.log(response)
+            store.dispatch(this.getAllCategories)
+            commit("SET_LOADING", false);
+        } catch (error) {
+            commit("SET_ERROR", { error: error });
+            commit("SET_LOADING", false);
+        }
+    }
 }
 
 export default {

@@ -49,6 +49,18 @@ const actions = {
             commit("SET_LOADING", false);
         }
     },
+    getAllPostsOfCategory: async function ({ commit },id) {
+        try {
+            commit("SET_LOADING", true);
+            let response = await PostService.getAllPostsOfCategory(id);
+            console.log("post---",response)
+            commit("SET_POSTS", { posts: response.data.data.docs });
+            commit("SET_LOADING", false);
+        } catch (error) {
+            commit("SET_ERROR", { error: error });
+            commit("SET_LOADING", false);
+        }
+    },
     deletePost: async function ({ commit }, id) {
         try {
             let response = await PostService.deletePost(id);

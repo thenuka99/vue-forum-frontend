@@ -83,9 +83,7 @@ const actions = {
         try {
             let response = await AuthService.signup(user);
             console.log(response)
-            store.dispatch('login', {
-                user:user
-              })
+            return router.push("/signin");
         } catch (error) {
             console.log(error)
             commit("SET_ERROR", { error: error })
