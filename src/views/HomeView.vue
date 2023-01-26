@@ -19,8 +19,8 @@
           <div class="heading text-left py-4 pl-4 font-semibold">Forums</div>
           <ul class="px-3 pb-2 divide-y divide-slate-300">
             <li v-for="category in categoryState.categories" v-bind:key="category._id"
-              class="text-left px-1 font-normal  ">
-              {{ category.name }}
+              class="text-left px-1 font-normal " @click="getPostsbyCategory(category._id)">
+              <button>{{ category.name }}</button>
             </li>
           </ul>
         </div>
@@ -71,6 +71,9 @@ export default {
       if (value) {
         return moment(String(value)).format('MMMM Do YYYY, h:mm:ss a')
       }
+    },
+    getPostsbyCategory(id){
+      this.$store.dispatch("getAllPostsOfCategory",id);
     }
   }
 };
