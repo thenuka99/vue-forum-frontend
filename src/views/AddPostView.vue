@@ -39,7 +39,6 @@
                     </button>
                 </div>
             </form>
-            <pre>{{ forum }}{{ userState.user._id }}</pre>
         </div>
     </div>
 </template>
