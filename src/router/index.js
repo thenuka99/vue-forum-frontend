@@ -28,6 +28,12 @@ const routes = [
     meta:{auth:true}
   },
   {
+    path: '/category',
+    name: 'category',
+    component: () => import('../views/CategoryView.vue'),
+    meta:{auth:true}
+  },
+  {
     path: '/signup',
     name: 'signup',
     component: () => import('../views/SignupView.vue'),

@@ -154,7 +154,7 @@ import { mapGetters } from "vuex";
 
 const navigation = [
   { name: "Home", href: "/"},
-  { name: "Team", href: "/signup" },
+  { name: "Team", href: "/category" },
   { name: "About", href: "/about" },
   { name: "Calendar", href: "/signin" },
 ];
