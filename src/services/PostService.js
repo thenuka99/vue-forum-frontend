@@ -22,6 +22,12 @@ export class PostService{
             'Content-Type': 'application/json'
         }});
     }
+    static getAllPostsOfCategory(id){
+        let dataURL = `${this.serverURL}/posts/category/${id}`;
+        return axios.get(dataURL,{headers: {
+            'Content-Type': 'application/json'
+        }});
+    }
     static getPost(contactID){
         let dataURL = `${this.serverURL}/posts/${contactID}`;
         return axios.get(dataURL,{headers: {
