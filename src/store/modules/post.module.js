@@ -9,6 +9,9 @@ const state = () => ({
         errorMessage: "",
         isLoading: false,
         post: null,
+        totalPages:0,
+        page: 1,
+        category:'',
     },
 })
 
@@ -26,6 +29,7 @@ const mutations = {
     },
     SET_POSTS: function (state, payload) {
         state.postList.posts = payload.posts;
+        state.postList.totalPages = payload.totalPages;
     },
     SET_POST: function (state, payload) {
         state.postList.post = payload.post;
@@ -33,28 +37,34 @@ const mutations = {
     SET_ERROR: function (state, payload) {
         state.postList.errorMessage = payload.error;
     },
+    INCREMENT_PAGE: function(state){
+        state.postList.page =state.postList.page+ 1;
+    },
+    DECREMENT_PAGE: function(state){
+        state.postList.page =state.postList.page- 1;
+    }
 }
 
 // actions
 const actions = {
-    getAllPosts: async function ({ commit }) {
+    getAllPosts: async function ({ commit },payload) {
         try {
             commit("SET_LOADING", true);
-            let response = await PostService.getAllPosts();
+            let response = await PostService.getAllPosts(payload);
             console.log("post---",response)
-            commit("SET_POSTS", { posts: response.data.data });
+            commit("SET_POSTS",  { posts: response.data.data.docs,totalPages:response.data.data.totalPages });
             commit("SET_LOADING", false);
         } catch (error) {
             commit("SET_ERROR", { error: error });
             commit("SET_LOADING", false);
         }
     },
-    getAllPostsOfCategory: async function ({ commit },id) {
+    getAllPostsOfCategory: async function ({ commit },payload) {
         try {
             commit("SET_LOADING", true);
-            let response = await PostService.getAllPostsOfCategory(id);
+            let response = await PostService.getAllPostsOfCategory(payload.id,payload.page);
             console.log("post---",response)
-            commit("SET_POSTS", { posts: response.data.data.docs });
+            commit("SET_POSTS", { posts: response.data.data.docs,totalPages:response.data.data.totalPages });
             commit("SET_LOADING", false);
         } catch (error) {
             commit("SET_ERROR", { error: error });
@@ -104,6 +114,12 @@ const actions = {
             commit("SET_ERROR", { error: error });
             commit("SET_LOADING", false);
         }
+    },
+    incrementPage:async function({commit}){
+        return commit("INCREMENT_PAGE")
+    },
+    decrementPage:async function({commit}){
+        return commit("DECREMENT_PAGE")
     }
 }
 

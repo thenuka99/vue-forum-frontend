@@ -16,20 +16,20 @@ export class PostService{
     static serverURL = 'http://localhost:5000';
 
    
-    static getAllPosts(){
-        let dataURL = `${this.serverURL}/posts`;
+    static getAllPosts(page){
+        let dataURL = `${this.serverURL}/posts?page=${page}`;
         return axios.get(dataURL,{headers: {
             'Content-Type': 'application/json'
         }});
     }
-    static getAllPostsOfCategory(id){
-        let dataURL = `${this.serverURL}/posts/category/${id}`;
+    static getAllPostsOfCategory(id,page){
+        let dataURL = `${this.serverURL}/posts/category/${id}?page=${page}`;
         return axios.get(dataURL,{headers: {
             'Content-Type': 'application/json'
         }});
     }
-    static getPost(contactID){
-        let dataURL = `${this.serverURL}/posts/${contactID}`;
+    static getPost(id){
+        let dataURL = `${this.serverURL}/posts/${id}`;
         return axios.get(dataURL,{headers: {
             'Content-Type': 'application/json'
         }});
