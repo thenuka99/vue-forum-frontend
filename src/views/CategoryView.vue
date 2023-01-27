@@ -18,22 +18,27 @@
 
     <!-- category list -->
     <div class=" bg-slate-200 mx-7 rounded-lg shadow-sm">
-        <table>
+        <table class=" w-full overflow-scroll">
             <thead>
                 <th>Name</th>
-                <th>Added By</th>
-                <th>Added On</th>
-                <th>Updated By</th>
-                <th>Updated On</th>
+                <th class=" screen-md:hidden">Added By</th>
+                <th class=" screen-md:hidden">Added On</th>
+                <th class=" screen-md:hidden">Updated By</th>
+                <th class=" screen-md:hidden">Updated On</th>
+                <th>Edit</th>
+                <th>Delete</th>
             </thead>
             <tbody>
                 <tr class="odd:bg-white even:bg-slate-50" v-for="category in categoryState.categories"
                     v-bind:key="category._id">
                     <td>{{ category.name }}</td>
-                    <td>{{ category.addedBy.name }}</td>
-                    <td>{{ formatDate(category.createdAt) }}</td>
-                    <td>{{ category.updatedBy.name }}</td>
-                    <td>{{ formatDate(category.updatedAt) }}</td>
+                    <td class=" screen-md:hidden">{{ category.addedBy.name }}</td>
+                    <td class=" screen-md:hidden">{{ formatDate(category.createdAt) }}</td>
+                    <td class=" screen-md:hidden">{{ category.updatedBy.name }}</td>
+                    <td class=" screen-md:hidden">{{ formatDate(category.updatedAt) }}</td>
+                    <td><i class="fa fa-pen hover:text-green-500"></i></td>
+                    <td><i class="fa fa-trash-can hover:text-red-500"></i></td>
+
                 </tr>
             </tbody>
         </table>
