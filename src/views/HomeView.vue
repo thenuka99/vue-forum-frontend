@@ -110,6 +110,7 @@ export default {
       }
     },
     getPostsbyCategory(id) {
+      this.$store.dispatch("resetPage")
       this.$store.dispatch("getAllPostsOfCategory", { id: id, page: this.postState.page });
     },
     incrementPage() {

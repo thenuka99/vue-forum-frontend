@@ -37,11 +37,17 @@ const mutations = {
     SET_ERROR: function (state, payload) {
         state.postList.errorMessage = payload.error;
     },
+    SET_CATEGORY: function (state, payload) {
+        state.postList.category = payload.category;
+    },
     INCREMENT_PAGE: function(state){
         state.postList.page =state.postList.page+ 1;
     },
     DECREMENT_PAGE: function(state){
         state.postList.page =state.postList.page- 1;
+    },
+    RESET_PAGE: function(state){
+        state.postList.page=1;
     }
 }
 
@@ -120,6 +126,12 @@ const actions = {
     },
     decrementPage:async function({commit}){
         return commit("DECREMENT_PAGE")
+    },
+    setCategory:async function({commit,id}){
+        return commit("SET_CATEGORY",id)
+    },
+    resetPage:async function({commit}){
+        return commit("RESET_PAGE")
     }
 }
 
