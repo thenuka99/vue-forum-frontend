@@ -16,31 +16,12 @@
     <div class="div px-5 py-4">
       <div class="grid grid-cols-4 gap-1 screen-md:block">
         <!-- forum categories -->
-        <div class="div bg-slate-50 rounded-lg screen-md:mb-4 shadow-lg">
-          <div class="heading text-left py-4 pl-4 font-semibold">Forums</div>
-          <ul class="px-3 pb-2 divide-y divide-slate-300">
-            <li v-for="category in categoryState.categories" v-bind:key="category._id"
-              class="text-left px-1 font-normal " @click="getPostsbyCategory(category._id)">
-              <button>{{ category.name }}</button>
-            </li>
-          </ul>
+        <div class="div bg-slate-50 rounded-lg  shadow-lg screen-md:mb-4">
+          <CategoryListComponent />
         </div>
         <!-- forums -->
         <div class="col-span-3 bg-slate-50 rounded-lg pb-5 shadow-lg">
-          <ul role="list" class="p-6 divide-y divide-black">
-            <li v-for="post in postState.posts" v-bind:key="post._id" class="flex py-4 first:pt-0 last:pb-0">
-              <div class="ml-3 w-full overflow-hidden ">
-                <p class="text-sm font-medium text-slate-900 text-left">{{ post.title }}</p>
-                <p class="text-sm text-slate-500 truncate text-left"><i class="fa fa-heart text-red-600"></i> {{
-                  post.votes.length
-                }} | <i class="fa fa-comment"></i> {{ post.comments.length }}</p>
-              </div>
-              <div class="w-full  overflow-hidden text-xs">
-                <p class=" text-right">{{ formatDate(post.updatedAt) }}</p>
-                <img class="h-10 w-10 rounded-full float-right" :src="post.addedBy.imageurl" alt="" />
-              </div>
-            </li>
-          </ul>
+          <PostListComponent :posts="postState.posts"/>
 
           <!-- pagination -->
           <div class="flex flex-col items-center">
@@ -87,52 +68,35 @@
 
 <script>
 import { mapGetters } from "vuex";
-import moment from 'moment'
+import PostListComponent from "@/components/PostListComponent.vue";
+import CategoryListComponent from "@/components/CategoryListComponent.vue";
+
 export default {
   name: "HomeView",
-  data() {
-    return {
-      categoryId: '',
-    }
-  },
   computed: mapGetters({
-    categoryState: "getCategoryState",
     postState: "getPostState",
   }),
   created: function () {
-    this.$store.dispatch("getAllCategories");
+    this.$store.dispatch("resetPage");
     this.$store.dispatch("getAllPosts", this.postState.page);
   },
   methods: {
-    formatDate(value) {
-      if (value) {
-        return moment(String(value)).format('MMMM Do YYYY, h:mm:ss a')
-      }
-    },
-    getPostsbyCategory(id) {
-      this.$store.dispatch("resetPage")
-      this.$store.dispatch("getAllPostsOfCategory", { id: id, page: this.postState.page });
-    },
     incrementPage() {
       if (this.postState.page < this.postState.totalPages) {
         this.$store.dispatch("incrementPage")
-        if (this.categoryId == null) {
-        this.$store.dispatch("getAllPostsOfCategory", { id: this.categoryId, page: this.postState.page });
-      } else {
         this.$store.dispatch("getAllPosts", this.postState.page);
-      }
       }
     },
     decrementPage() {
       if (this.postState.page > 1) {
         this.$store.dispatch("decrementPage")
-        if (this.categoryId) {
-        this.$store.dispatch("getAllPostsOfCategory", { id: this.categoryId, page: this.postState.page });
-      } else {
         this.$store.dispatch("getAllPosts", this.postState.page);
       }
-      } 
     }
+  },
+  components: {
+    PostListComponent,
+    CategoryListComponent,
   }
 };
 </script>

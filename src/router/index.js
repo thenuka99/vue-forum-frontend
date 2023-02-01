@@ -10,6 +10,12 @@ const routes = [
     meta:{auth:true}
   },
   {
+    path: '/category/:categoryId',
+    name: 'categorypage',
+    component: () => import('../views/PostsByCategoryView.vue'),
+    meta:{auth:true}
+  },
+  {
     path: '/about',
     name: 'about',
     component: () => import('../views/AboutView.vue'),
