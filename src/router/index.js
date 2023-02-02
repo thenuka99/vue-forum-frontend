@@ -16,6 +16,12 @@ const routes = [
     meta:{auth:true}
   },
   {
+    path: '/post/:postId',
+    name: 'postPage',
+    component: () => import('../views/PostView.vue'),
+    meta:{auth:true}
+  },
+  {
     path: '/about',
     name: 'about',
     component: () => import('../views/AboutView.vue'),
