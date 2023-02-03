@@ -2,7 +2,7 @@
     <div class="flex flex-col items-center">
         <!-- Help text -->
         <span class="text-sm text-gray-700 dark:text-gray-400">
-            <span class="font-semibold text-gray-900 ">{{ postState.page }}</span> of <span
+            <span class="font-semibold text-gray-900 ">{{ page }}</span> of <span
                 class="font-semibold text-gray-900 ">{{ postState.totalPages }}</span> Pages
         </span>
         <div class="inline-flex mt-2 xs:mt-0">
@@ -40,21 +40,39 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
+    data(){
+        return{
+            page:1,
+        }
+    },
     computed: mapGetters({
         postState: "getPostState",
     }),
+    created(){
+        this.$watch(
+            () => this.$route.query,
+            () => {
+                this.page=this.$route.query.page
+             },
+        )
+    },
     methods: {
         incrementPage() {
-            if (this.postState.page < this.postState.totalPages) {
-                this.$store.dispatch("incrementPage")
+            if (this.page < this.postState.totalPages) {
+                this.page++
+                this.getPage(this.page)
             }
         },
         decrementPage() {
-            if (this.postState.page > 1) {
-                this.$store.dispatch("decrementPage")
+            if (this.page > 1) {
+                this.page--
+                this.getPage(this.page)
             }
         }
     },
+    props:{
+        getPage:Function
+    }
 }
 </script>
 
