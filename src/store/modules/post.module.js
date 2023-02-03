@@ -1,4 +1,5 @@
 import { PostService } from "@/services/PostService";
+import { NotificationHelper } from "@/helper/NotificationHelper";
 import store from "..";
 import router from "@/router";
 
@@ -6,12 +7,10 @@ import router from "@/router";
 const state = () => ({
     postList: {
         posts: [],
-        errorMessage: "",
         isLoading: false,
         post: null,
         totalPages:0,
         page: 1,
-        category:'',
     },
 })
 
@@ -34,21 +33,6 @@ const mutations = {
     SET_POST: function (state, payload) {
         state.postList.post = payload.post;
     },
-    SET_ERROR: function (state, payload) {
-        state.postList.errorMessage = payload.error;
-    },
-    SET_CATEGORY: function (state, payload) {
-        state.postList.category = payload.category;
-    },
-    INCREMENT_PAGE: function(state){
-        state.postList.page =state.postList.page+ 1;
-    },
-    DECREMENT_PAGE: function(state){
-        state.postList.page =state.postList.page- 1;
-    },
-    RESET_PAGE: function(state){
-        state.postList.page=1;
-    }
 }
 
 // actions
@@ -57,11 +41,10 @@ const actions = {
         try {
             commit("SET_LOADING", true);
             let response = await PostService.getAllPosts(payload);
-            console.log("post---",response)
             commit("SET_POSTS",  { posts: response.data.data.docs,totalPages:response.data.data.totalPages });
             commit("SET_LOADING", false);
-        } catch (error) {
-            commit("SET_ERROR", { error: error });
+        }catch (error) {
+            NotificationHelper.errorhandler(error)
             commit("SET_LOADING", false);
         }
     },
@@ -69,32 +52,36 @@ const actions = {
         try {
             commit("SET_LOADING", true);
             let response = await PostService.getAllPostsOfCategory(payload.id,payload.page);
-            console.log("post---",response)
             commit("SET_POSTS", { posts: response.data.data.docs,totalPages:response.data.data.totalPages });
             commit("SET_LOADING", false);
-        } catch (error) {
-            commit("SET_ERROR", { error: error });
+        }catch (error) {
+            NotificationHelper.errorhandler(error)
             commit("SET_LOADING", false);
         }
     },
-    deletePost: async function ({ commit }, id) {
+    deletePost: async function ({ commit },id) {
         try {
-            let response = await PostService.deletePost(id);
-            console.log(response)
-        } catch (error) {
-            console.log(error)
-            commit("SET_ERROR", { error: error })
+            commit("SET_LOADING", true);
+            await PostService.deletePost(id);    
+            store.dispatch(this.getAllPosts)     
+            NotificationHelper.notificationhandler("Post deleted successfully!")
+            commit("SET_LOADING", false);
+        }catch (error) {
+            NotificationHelper.errorhandler(error)
+            commit("SET_LOADING", false);
         }
     },
-    updatePost: async function ({ commit }, post) {
+    updatePost: async function ({ commit },post) {
         try {
-            let response = await PostService.updatePost(post, post.id);
-            store.dispatch(this.getAllPosts)
-            console.log(response)
+            commit("SET_LOADING", true);
+            await PostService.updatePost(post, post.id);
+            store.dispatch(this.getAllPosts)    
+            NotificationHelper.notificationhandler("Post updated successfully!")
+            commit("SET_LOADING", false);
             return router.push("/");
-        } catch (error) {
-            console.log(error)
-            commit("SET_ERROR", { error: error })
+        }catch (error) {
+            NotificationHelper.errorhandler(error)
+            commit("SET_LOADING", false);
         }
     },
     getPost: async function ({ commit },id) {
@@ -102,37 +89,26 @@ const actions = {
             commit("SET_LOADING", true);
             let response = await PostService.getPost(id);
             console.log(response)
-            commit("SET_POST", { category: response.data });
+            commit("SET_POST", { post: response.data.data});
             commit("SET_LOADING", false);
-        } catch (error) {
-            commit("SET_ERROR", { error: error });
+        }catch (error) {
+            NotificationHelper.errorhandler(error)
             commit("SET_LOADING", false);
         }
     },
     createPost:async function({commit},post){
         try {
             commit("SET_LOADING", true);
-            let response = await PostService.createPost(post);
-            console.log(response)
+            await PostService.createPost(post);
+            store.dispatch(this.getAllPosts)    
+            NotificationHelper.notificationhandler("Post updated successfully!")
             commit("SET_LOADING", false);
             return router.push("/");
-        } catch (error) {
-            commit("SET_ERROR", { error: error });
+        }catch (error) {
+            NotificationHelper.errorhandler(error)
             commit("SET_LOADING", false);
         }
     },
-    incrementPage:async function({commit}){
-        return commit("INCREMENT_PAGE")
-    },
-    decrementPage:async function({commit}){
-        return commit("DECREMENT_PAGE")
-    },
-    setCategory:async function({commit,id}){
-        return commit("SET_CATEGORY",id)
-    },
-    resetPage:async function({commit}){
-        return commit("RESET_PAGE")
-    }
 }
 
 export default {

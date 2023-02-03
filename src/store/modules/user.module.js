@@ -1,14 +1,13 @@
 import { AuthService } from "@/services/AuthService";
 import { UserService } from "@/services/UserService";
+import { NotificationHelper } from "@/helper/NotificationHelper";
 import store from "..";
-import {notify} from "notiwind"
 import router from "@/router";
 
 // initial state
 const state = () => ({
     userList: {
         users: [],
-        errorMessage: "",
         isLoading: false,
         user: null,
         otherUser: null,
@@ -37,9 +36,6 @@ const mutations = {
     SET_OTHER_USER: function (state, payload) {
         state.userList.user = payload.otherUser;
     },
-    SET_ERROR: function (state, payload) {
-        state.userList.errorMessage = payload.error;
-    },
     SET_TOKEN: function (state, payload) {
         state.userList.token = payload.token;
     },
@@ -55,76 +51,65 @@ const actions = {
             commit("SET_USERS", { users: response.data });
             commit("SET_LOADING", false);
         } catch (error) {
-            commit("SET_ERROR", { error: error });
-            commit("SET_LOADING", false);
+            this.errorhandler(error)
         }
     },
-    deleteUser: async function ({ commit }, id) {
-        try {
-            let response = await UserService.deleteUser(id);
-            console.log(response)
+    deleteUser: async function ({ commit },id) {
+        try {            
+            commit("SET_LOADING", true);
+            await UserService.deleteUser(id);
+            NotificationHelper.notificationhandler("User deleted successfully!")            
+            commit("SET_LOADING", false);
             store.dispatch(this.logout)
         } catch (error) {
-            console.log(error)
-            commit("SET_ERROR", { error: error })
+            NotificationHelper.errorhandler(error)
         }
     },
-    updateUser: async function ({ commit }, user) {
+    updateUser: async function ({ commit },user) {
         try {
-            let response = await UserService.updateuser(user, user.id);
+            commit("SET_LOADING", true);
+            await UserService.updateuser(user, user.id);
             store.dispatch(this.getUsers)
-            console.log(response)
+            commit("SET_LOADING", false);
+            NotificationHelper.notificationhandler("User updated successfully!")
         } catch (error) {
-            console.log(error)
-            commit("SET_ERROR", { error: error })
+            NotificationHelper.errorhandler(error)
         }
     },
-    signup: async function ({ commit }, user) {
+    signup: async function ({ commit },user) {
         try {
-            let response = await AuthService.signup(user);
-            console.log(response)
+            commit("SET_LOADING", true);
+            await AuthService.signup(user);
+            NotificationHelper.notificationhandler("User registered successfully!")
+            commit("SET_LOADING", false);
             return router.push("/signin");
         } catch (error) {
-            console.log(error)
-            commit("SET_ERROR", { error: error })
+            NotificationHelper.errorhandler(error)
         }
     },
     login: async function ({ commit }, user) {
         try {
             let response = await AuthService.login(user);
             commit("SET_TOKEN", { token: response.data.data })
-            store.dispatch('getUser',{ token:response.data.data})
-            notify({
-                title: "Success",
-                text: "Successfully login in!"
-              }, 2000) // 2s
-              return router.push("/loading");
+            store.dispatch('getUser', { token: response.data.data })
         } catch (error) {
-            console.log(error)
-            commit("SET_ERROR", { error: error })
-            notify({
-                title: "error",
-                text: error
-              }, 2000)
+            this.errorhandler(error)
         }
     },
     logout: async function ({ commit }) {
         commit("SET_LOGGED_USER", { contact: null });
     },
-    getUser: async function({commit},token){
+    getUser: async function ({ commit }, token) {
         try {
             let response = await AuthService.getUserDetails(token);
             commit("SET_LOGGED_USER", { user: response.data.data })
+            NotificationHelper.notificationhandler("Successfully login in!")
             return router.push("/");
         } catch (error) {
-            console.log(error)
-            commit("SET_ERROR", { error: error })
-            notify({
-                title: "error",
-                text: '${error}'
-              }, 2000)
+            NotificationHelper.errorhandler(error)
         }
-    }, 
+    },
+    
 }
 
 export default {

@@ -24,7 +24,7 @@
           <PostListComponent :posts="postState.posts" />
 
           <!-- pagination -->
-          <PaginationComponent />
+          <PaginationComponent :getPage="getPage"/>
         </div>
       </div>
     </div>
@@ -44,13 +44,19 @@ export default {
   }),
   created: function () {
     this.$watch(
-      () => this.postState.page,
+      () => this.$route.query,
       () => {
-        this.$store.dispatch("getAllPosts", this.postState.page);
+        this.$store.dispatch("getAllPosts",this.$route.query.page);
+        console.log("query", this.$route.query.page)
       },
     ),
-    this.$store.dispatch("resetPage");
-    this.$store.dispatch("getAllPosts", this.postState.page);
+      this.$store.dispatch("getAllPosts", this.$route.query.page);
+  },
+  methods: {
+    getPage(page) {
+      this.page = page
+      this.$router.push({ name: "home", query: { page: page } })
+    }
   },
   components: {
     PostListComponent,
