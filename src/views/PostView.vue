@@ -10,26 +10,50 @@
 
     <!-- content -->
     <div class="div px-5 py-4">
-      <div class="grid grid-cols-4 gap-1 screen-md:block">
+      <div class="grid grid-cols-4 gap-3 screen-md:block">
         <!-- forum categories -->
         <div class="div bg-slate-50 rounded-lg  shadow-lg screen-md:mb-4">
           <CategoryListComponent />
         </div>
 
         <!-- forum -->
-        <div class="col-span-3 bg-slate-50 rounded-lg pb-5 shadow-lg">
-          <div class="w-full overflow-hidden text-xs flex">
-            <img class="h-12 w-12 rounded-full ml-4 my-4" :src="postState.post.addedBy.imageurl" alt="" />
-            <div class=" flex-col ml-2  my-4 w-full">
-              <p class=" text-left font-bold text-lg">{{ postState.post.addedBy.name }}</p>
-              <p class=" text-left">{{ formatDate(postState.post.updatedAt) }}</p>
+        <div class="col-span-3">
+          <div class=" bg-slate-50 rounded-lg pb-5 shadow-lg">
+            <div class="w-full overflow-hidden text-xs flex">
+              <img class="h-12 w-12 rounded-full ml-4 my-4" :src="postState.post.addedBy.imageurl" alt="" />
+              <div class=" flex-col ml-2  my-4 w-full">
+                <p class=" text-left font-bold text-lg">{{ postState.post.addedBy.name }}</p>
+                <p class=" text-left">{{ formatDate(postState.post.updatedAt) }}</p>
+              </div>
+            </div>
+            <div class=" mx-4 my-3">
+              <h1 class=" font-extrabold text-2xl text-left">{{ postState.post.title }}</h1>
+              <p class=" text-justify mt-3">{{ postState.post.content }}</p>
+            </div>
+            <div class="flex mx-4">
+              <button class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"><i :class= "[postState.post.votes.includes(userState.user._id)?'fa fa-thumbs-up text-green-600':'fa fa-thumbs-up text-gray-600']"></i> {{ postState.post.votes.length }}</button>
+              <button v-if="postState.post.addedBy._id==userState.user._id" class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white">Edit</button>
+              <button v-if="postState.post.addedBy._id==userState.user._id" class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white">Delete</button>
+            </div>
+          </div>
+          <h1 class=" mt-5 text-left font-bold">Answers :</h1>
+          <!-- comments -->
+          <div class=" bg-slate-50 rounded-lg pb-5 shadow-lg">
+            <div class="w-full overflow-hidden text-xs flex">
+              <img class="h-8 w-8 rounded-full ml-4 my-4" :src="postState.post.addedBy.imageurl" alt="" />
+              <div class=" flex-col ml-2  my-4 w-full">
+                <p class=" text-left font-bold text-md">{{ postState.post.addedBy.name }}</p>
+                <p class=" text-left">{{ formatDate(postState.post.updatedAt) }}</p>
+              </div>
+            </div>
+            <div class=" mx-4 my-3">
+              <p class=" text-justify mt-3">{{ postState.post.content }}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <pre>{{ postState.post }}</pre>
 </template>
 
 <script>
@@ -43,6 +67,7 @@ export default {
   },
   computed: mapGetters({
     postState: "getPostState",
+    userState: "getUserState",
   }),
   components: {
     CategoryListComponent
