@@ -24,7 +24,7 @@
                     <PostListComponent :posts="postState.posts" />
 
                     <!-- pagination -->
-                    <PaginationComponent />
+                    <PaginationComponent :getPage="getPage"/>
                 </div>
             </div>
         </div>
@@ -39,6 +39,11 @@ import PaginationComponent from '@/components/PaginationComponent.vue';
 
 export default {
     name: "HomeView",
+    data(){
+        return{
+            page:1,
+        }
+    },
     computed: mapGetters({
         postState: "getPostState",
     }),
@@ -46,23 +51,26 @@ export default {
         this.$watch(
             () => this.$route.params,
             () => {
-                this.$store.dispatch("resetPage")
                 this.getAllPostsOfCategory();
             },
         ),
         this.$watch(
-            () => this.postState.page,
+            () => this.$route.query,
             () => {
                 this.getAllPostsOfCategory();
+            console.log("query",this.$route.query.page )
              },
         ),
-        this.$store.dispatch("resetPage")
         this.getAllPostsOfCategory();
     },
     methods: {
         getAllPostsOfCategory() {
-            this.$store.dispatch("getAllPostsOfCategory", { id: this.$route.params.categoryId, page: this.postState.page });
+            this.$store.dispatch("getAllPostsOfCategory", { id: this.$route.params.categoryId, page: this.$route.query.page });
         },
+        getPage(page){
+            this.page=page
+            this.$router.push({ name: "categorypage", params: {id:this.$route.params.categoryId}, query: {page: page} })
+        }
     },
     components: {
         PostListComponent,
