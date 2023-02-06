@@ -28,6 +28,12 @@ export class PostService{
             'Content-Type': 'application/json'
         }});
     }
+    static getAllPostsOfUser(id,page){
+        let dataURL = `${this.serverURL}/posts/user/${id}?page=${page}`;
+        return axios.get(dataURL,{headers: {
+            'Content-Type': 'application/json'
+        }});
+    }
     static getPost(id){
         let dataURL = `${this.serverURL}/posts/${id}`;
         return axios.get(dataURL,{headers: {

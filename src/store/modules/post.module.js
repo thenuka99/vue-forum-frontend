@@ -59,6 +59,18 @@ const actions = {
             commit("SET_LOADING", false);
         }
     },
+    getAllPostsOfUser: async function ({ commit },payload) {
+        try {
+            commit("SET_LOADING", true);
+            let response = await PostService.getAllPostsOfUser(payload.id,payload.page);
+            console.log(response)
+            commit("SET_POSTS", { posts: response.data.data.docs,totalPages:response.data.data.totalPages });
+            commit("SET_LOADING", false);
+        }catch (error) {
+            NotificationHelper.errorhandler(error)
+            commit("SET_LOADING", false);
+        }
+    },
     deletePost: async function ({ commit },id) {
         try {
             commit("SET_LOADING", true);
