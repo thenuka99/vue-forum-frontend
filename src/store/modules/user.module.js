@@ -51,7 +51,7 @@ const actions = {
             commit("SET_USERS", { users: response.data });
             commit("SET_LOADING", false);
         } catch (error) {
-            this.errorhandler(error)
+            NotificationHelper.errorhandler(error)
         }
     },
     deleteUser: async function ({ commit },id) {

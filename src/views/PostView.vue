@@ -38,16 +38,16 @@
           </div>
           <h1 class=" mt-5 text-left font-bold">Answers :</h1>
           <!-- comments -->
-          <div class=" bg-slate-50 rounded-lg pb-5 shadow-lg">
-            <div class="w-full overflow-hidden text-xs flex">
-              <img class="h-8 w-8 rounded-full ml-4 my-4" :src="postState.post.addedBy.imageurl" alt="" />
+          <div class=" bg-slate-50 rounded-lg pb-5 shadow-lg" v-if="postState.post.comments.length>0">
+            <div class="w-full overflow-hidden text-xs flex divide-y divide-black" v-for="comment in postState.post.comments" v-bind:key="comment._id">
+              <img class="h-8 w-8 rounded-full ml-4 my-4" :src="comment.addedBy.imageurl" alt="" />
               <div class=" flex-col ml-2  my-4 w-full">
-                <p class=" text-left font-bold text-md">{{ postState.post.addedBy.name }}</p>
-                <p class=" text-left">{{ formatDate(postState.post.updatedAt) }}</p>
+                <p class=" text-left font-bold text-md">{{ comment.addedBy.name }}</p>
+                <p class=" text-left">{{ formatDate(comment.updatedAt) }}</p>
               </div>
             </div>
             <div class=" mx-4 my-3">
-              <p class=" text-justify mt-3">{{ postState.post.content }}</p>
+              <p class=" text-justify mt-3">{{ comment.content }}</p>
             </div>
           </div>
         </div>
