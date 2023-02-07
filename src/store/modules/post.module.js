@@ -86,7 +86,7 @@ const actions = {
     updatePost: async function ({ commit },post) {
         try {
             commit("SET_LOADING", true);
-            await PostService.updatePost(post, post.id);
+            await PostService.updatePost(post, post._id);
             store.dispatch(this.getAllPosts)    
             NotificationHelper.notificationhandler("Post updated successfully!")
             commit("SET_LOADING", false);

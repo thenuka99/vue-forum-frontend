@@ -1,30 +1,32 @@
 <template>
-    <div class="div bg-blue-800 p-4 text-white text-justify mx-5">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
-        inventore eligendi exercitationem labore repellat recusandae, temporibus
-        iusto velit vero optio non, corporis dicta sit? Totam labore impedit
-        laboriosam. Molestiae, similique.
-    </div>
-    <div class="div flex flex-row-reverse ml-4">
-        <button
-            class=" p-3 mx-5 mt-4 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 text-center">
-            <router-link to="/addforum"><i class="fa fa-add"></i> add new forum</router-link>
-        </button>
-    </div>
-    <div>
-        <!-- content -->
-        <div class="div px-5 py-4">
-            <div class="grid grid-cols-4 gap-1 screen-md:block">
-                <!-- forum categories -->
-                <div class="div bg-slate-50 rounded-lg  shadow-lg screen-md:mb-4">
-                    <CategoryListComponent />
-                </div>
-                <!-- forums -->
-                <div class="col-span-3 bg-slate-50 rounded-lg pb-5 shadow-lg">
-                    <PostListComponent :posts="postState.posts" />
+    <div class=" bg-slate-200 h-full">
+        <div class="div bg-blue-800 p-4 text-white text-justify mx-5">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis
+            inventore eligendi exercitationem labore repellat recusandae, temporibus
+            iusto velit vero optio non, corporis dicta sit? Totam labore impedit
+            laboriosam. Molestiae, similique.
+        </div>
+        <div class="div flex flex-row-reverse ml-4">
+            <button
+                class=" p-3 mx-5 mt-4 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 text-center">
+                <router-link to="/addforum"><i class="fa fa-add"></i> add new forum</router-link>
+            </button>
+        </div>
+        <div>
+            <!-- content -->
+            <div class="div px-5 py-4">
+                <div class="grid grid-cols-4 gap-1 screen-md:block">
+                    <!-- forum categories -->
+                    <div class="div bg-slate-50 rounded-lg  shadow-lg screen-md:mb-4">
+                        <CategoryListComponent />
+                    </div>
+                    <!-- forums -->
+                    <div class="col-span-3 bg-slate-50 rounded-lg pb-5 shadow-lg">
+                        <PostListComponent :posts="postState.posts" />
 
-                    <!-- pagination -->
-                    <PaginationComponent :getPage="getPage"/>
+                        <!-- pagination -->
+                        <PaginationComponent :getPage="getPage" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,9 +41,9 @@ import PaginationComponent from '@/components/PaginationComponent.vue';
 
 export default {
     name: "HomeView",
-    data(){
-        return{
-            page:1,
+    data() {
+        return {
+            page: 1,
         }
     },
     computed: mapGetters({
@@ -54,22 +56,22 @@ export default {
                 this.getAllPostsOfCategory();
             },
         ),
-        this.$watch(
-            () => this.$route.query,
-            () => {
-                this.getAllPostsOfCategory();
-            console.log("query",this.$route.query.page )
-             },
-        ),
-        this.getAllPostsOfCategory();
+            this.$watch(
+                () => this.$route.query,
+                () => {
+                    this.getAllPostsOfCategory();
+                    console.log("query", this.$route.query.page)
+                },
+            ),
+            this.getAllPostsOfCategory();
     },
     methods: {
         getAllPostsOfCategory() {
             this.$store.dispatch("getAllPostsOfCategory", { id: this.$route.params.categoryId, page: this.$route.query.page });
         },
-        getPage(page){
-            this.page=page
-            this.$router.push({ name: "categorypage", params: {id:this.$route.params.categoryId}, query: {page: page} })
+        getPage(page) {
+            this.page = page
+            this.$router.push({ name: "categorypage", params: { id: this.$route.params.categoryId }, query: { page: page } })
         }
     },
     components: {

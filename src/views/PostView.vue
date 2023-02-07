@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class=" h-full bg-slate-200">
     <!-- add forum btn -->
     <div class="div flex flex-row-reverse ml-4">
       <button
@@ -12,13 +12,13 @@
     <div class="div px-5 py-4">
       <div class="grid grid-cols-4 gap-3 screen-md:block">
         <!-- forum categories -->
-        <div class="div bg-slate-50 rounded-lg  shadow-lg screen-md:mb-4">
+        <div class="div bg-white rounded-lg  shadow-lg screen-md:mb-4">
           <CategoryListComponent />
         </div>
 
         <!-- forum -->
         <div class="col-span-3">
-          <div class=" bg-slate-50 rounded-lg pb-5 shadow-lg">
+          <div class=" bg-white rounded-lg pb-5 shadow-lg">
             <div class="w-full overflow-hidden text-xs flex">
               <img class="h-12 w-12 rounded-full ml-4 my-4" :src="postState.post.addedBy.imageurl" alt="" />
               <div class=" flex-col ml-2  my-4 w-full">
@@ -32,7 +32,7 @@
             </div>
             <div class="flex mx-4">
               <button class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"><i :class= "[postState.post.votes.includes(userState.user._id)?'fa fa-thumbs-up text-green-600':'fa fa-thumbs-up text-gray-600']"></i> {{ postState.post.votes.length }}</button>
-              <button v-if="postState.post.addedBy._id==userState.user._id" class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white">Edit</button>
+              <button v-if="postState.post.addedBy._id==userState.user._id" class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"><router-link :to="`/editforum/${postState.post._id}`">Edit</router-link></button>
               <button v-if="postState.post.addedBy._id==userState.user._id" class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white">Delete</button>
             </div>
           </div>

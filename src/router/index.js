@@ -40,6 +40,12 @@ const routes = [
     meta:{auth:true}
   },
   {
+    path: '/editforum/:forumId',
+    name: 'editforum',
+    component: () => import('../views/AddPostView.vue'),
+    meta:{auth:true}
+  },
+  {
     path: '/category',
     name: 'category',
     component: () => import('../views/CategoryView.vue'),
