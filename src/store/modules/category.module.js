@@ -60,7 +60,7 @@ const actions = {
     },
     updateCategory: async function ({ commit }, category) {
         try {
-            let response = await CategoryService.updateCategory(category, category.id);            
+            let response = await CategoryService.updateCategory(category, category._id);            
             NotificationHelper.notificationhandler('Category updated successfully!')
             store.dispatch("getAllCategories")
             console.log(response)
