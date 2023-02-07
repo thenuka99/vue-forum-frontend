@@ -1,5 +1,5 @@
 <template>
-    <!-- signin form -->
+    <!-- form -->
     <div
         class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6  lg:px-8 fixed inset-0 z-10 overflow-y-auto bg-blue-50">
         <div class=" w-full  max-w-6xl space-y-8 bg-white py-16 px-12 rounded-lg drop-shadow-2xl">

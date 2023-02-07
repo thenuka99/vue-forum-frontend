@@ -68,10 +68,9 @@ const actions = {
     updateUser: async function ({ commit },user) {
         try {
             commit("SET_LOADING", true);
-            await UserService.updateuser(user, user.id);
-            store.dispatch(this.getUsers)
-            commit("SET_LOADING", false);
+            await UserService.updateuser(user, user._id);            
             NotificationHelper.notificationhandler("User updated successfully!")
+            commit("SET_LOADING", false);
         } catch (error) {
             NotificationHelper.errorhandler(error)
         }
@@ -91,7 +90,7 @@ const actions = {
         try {
             let response = await AuthService.login(user);
             commit("SET_TOKEN", { token: response.data.data })
-            store.dispatch('getUser', { token: response.data.data })
+            store.dispatch('getUser', { token: response.data.data })     
         } catch (error) {
             this.errorhandler(error)
         }
@@ -103,7 +102,7 @@ const actions = {
         try {
             let response = await AuthService.getUserDetails(token);
             commit("SET_LOGGED_USER", { user: response.data.data })
-            NotificationHelper.notificationhandler("Successfully login in!")
+            NotificationHelper.notificationhandler("Successfully login in!")                   
             return router.push("/");
         } catch (error) {
             NotificationHelper.errorhandler(error)
