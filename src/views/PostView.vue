@@ -31,15 +31,21 @@
               <p class=" text-justify mt-3">{{ postState.post.content }}</p>
             </div>
             <div class="flex mx-4">
-              <button class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"><i :class= "[postState.post.votes.includes(userState.user._id)?'fa fa-thumbs-up text-green-600':'fa fa-thumbs-up text-gray-600']"></i> {{ postState.post.votes.length }}</button>
-              <button v-if="postState.post.addedBy._id==userState.user._id" class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"><router-link :to="`/editforum/${postState.post._id}`">Edit</router-link></button>
-              <button v-if="postState.post.addedBy._id==userState.user._id" class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white">Delete</button>
+              <button class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"><i
+                  :class="[postState.post.votes.includes(userState.user._id) ? 'fa fa-thumbs-up text-green-600' : 'fa fa-thumbs-up text-gray-600']"></i>
+                {{ postState.post.votes.length }}</button>
+              <button v-if="postState.post.addedBy._id == userState.user._id"
+                class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"><router-link
+                  :to="`/editforum/${postState.post._id}`">Edit</router-link></button>
+              <button v-if="postState.post.addedBy._id == userState.user._id"
+                class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white" @click="deletePost(postState.post._id)">Delete</button>
             </div>
           </div>
           <h1 class=" mt-5 text-left font-bold">Answers :</h1>
           <!-- comments -->
-          <div class=" bg-slate-50 rounded-lg pb-5 shadow-lg" v-if="postState.post.comments.length>0">
-            <div class="w-full overflow-hidden text-xs flex divide-y divide-black" v-for="comment in postState.post.comments" v-bind:key="comment._id">
+          <div class=" bg-slate-50 rounded-lg pb-5 shadow-lg" v-if="postState.post.comments.length > 0">
+            <div class="w-full overflow-hidden text-xs flex divide-y divide-black"
+              v-for="comment in postState.post.comments" v-bind:key="comment._id">
               <img class="h-8 w-8 rounded-full ml-4 my-4" :src="comment.addedBy.imageurl" alt="" />
               <div class=" flex-col ml-2  my-4 w-full">
                 <p class=" text-left font-bold text-md">{{ comment.addedBy.name }}</p>
@@ -78,7 +84,11 @@ export default {
         return moment(String(value)).format('MMMM Do YYYY, h:mm:ss a')
       }
     },
-  },
+    deletePost(id) {
+      this.$store.dispatch("deletePost", id)
+      this.$router.go(-1)
+    },
+  }
 }
 </script>
 
