@@ -1,4 +1,5 @@
 import { CategoryService } from "@/services/CategoryService";
+import { NotificationHelper } from "@/helper/NotificationHelper";
 import store from "..";
 
 // initial state
@@ -40,18 +41,18 @@ const actions = {
         try {
             commit("SET_LOADING", true);
             let response = await CategoryService.getAllCategories();
-            console.log(response)
             commit("SET_CATEGORISE", { categories: response.data.data });
             commit("SET_LOADING", false);
         } catch (error) {
-            commit("SET_ERROR", { error: error });
+            NotificationHelper.errorhandler(error)
             commit("SET_LOADING", false);
         }
     },
     deleteCategory: async function ({ commit }, id) {
         try {
-            let response = await CategoryService.deleteCategory(id);
-            console.log(response)
+            await CategoryService.deleteCategory(id);
+            NotificationHelper.notificationhandler('Category deleted successfully!')
+            store.dispatch("getAllCategories")
         } catch (error) {
             console.log(error)
             commit("SET_ERROR", { error: error })
@@ -59,8 +60,9 @@ const actions = {
     },
     updateCategory: async function ({ commit }, category) {
         try {
-            let response = await CategoryService.updateCategory(category, category.id);
-            store.dispatch(this.getAllCategories)
+            let response = await CategoryService.updateCategory(category, category.id);            
+            NotificationHelper.notificationhandler('Category updated successfully!')
+            store.dispatch("getAllCategories")
             console.log(response)
         } catch (error) {
             console.log(error)
@@ -74,19 +76,19 @@ const actions = {
             commit("SET_CATEGORY", { category: response.data });
             commit("SET_LOADING", false);
         } catch (error) {
-            commit("SET_ERROR", { error: error });
+            NotificationHelper.errorhandler(error)
             commit("SET_LOADING", false);
         }
     },
     createCategory:async function({commit},category){
         try {
             commit("SET_LOADING", true);
-            let response = await CategoryService.createCategory(category);
-            console.log(response)
-            store.dispatch(this.getAllCategories)
+            await CategoryService.createCategory(category);
+            NotificationHelper.notificationhandler('Category created successfully!')
+            store.dispatch('getAllCategories')
             commit("SET_LOADING", false);
         } catch (error) {
-            commit("SET_ERROR", { error: error });
+            NotificationHelper.errorhandler(error)
             commit("SET_LOADING", false);
         }
     }

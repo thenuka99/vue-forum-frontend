@@ -76,7 +76,7 @@ const actions = {
             commit("SET_LOADING", true);
             await PostService.deletePost(id);    
             NotificationHelper.notificationhandler('Post deleted successfully!')
-            store.dispatch(this.getAllPosts)     
+            store.dispatch("getAllPosts")     
             commit("SET_LOADING", false);
         }catch (error) {
             NotificationHelper.errorhandler(error)
@@ -88,7 +88,7 @@ const actions = {
             commit("SET_LOADING", true);
             await PostService.updatePost(post, post._id);
             NotificationHelper.notificationhandler("Post updated successfully!")
-            store.dispatch(this.getAllPosts)    
+            store.dispatch("getAllPosts")    
             commit("SET_LOADING", false);
         }catch (error) {
             NotificationHelper.errorhandler(error)
@@ -112,7 +112,7 @@ const actions = {
             commit("SET_LOADING", true);
             await PostService.createPost(post);
             NotificationHelper.notificationhandler("Post updated successfully!")
-            store.dispatch(this.getAllPosts)    
+            store.dispatch("getAllPosts")    
             commit("SET_LOADING", false);
             return router.push("/");
         }catch (error) {

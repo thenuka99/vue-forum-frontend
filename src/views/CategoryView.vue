@@ -37,7 +37,7 @@
                     <td class=" screen-md:hidden">{{ category.updatedBy.name }}</td>
                     <td class=" screen-md:hidden">{{ formatDate(category.updatedAt) }}</td>
                     <td><i class="fa fa-pen hover:text-green-500"></i></td>
-                    <td><i class="fa fa-trash-can hover:text-red-500"></i></td>
+                    <td @click="deleteCategory(category._id)"><i class="fa fa-trash-can hover:text-red-500"></i></td>
 
                 </tr>
             </tbody>
@@ -66,9 +66,12 @@ export default {
         },
         formatDate(value) {
             if (value) {
-                return moment(String(value)).format('MMMM Do YYYY, h:mm:ss a')
+                return moment(String(value)).format('MMMM Do YYYY, h:mm a')
             }
         },
+        deleteCategory(id){
+            this.$store.dispatch("deleteCategory", id);
+        }
     }
 }
 </script>
