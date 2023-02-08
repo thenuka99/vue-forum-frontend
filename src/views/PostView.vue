@@ -57,6 +57,14 @@
             <div class=" mx-4 my-3">
               <p class=" text-justify mt-3">{{ comment.content }}</p>
             </div>
+            <div class="flex mb-2">
+              <button v-if="comment.addedBy._id == userState.user._id"
+              class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"><router-link
+                :to="`/editforum/${comment._id}`">Edit</router-link></button>
+            <button v-if="comment.addedBy._id == userState.user._id"
+              class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"
+              @click="deleteComment(comment._id)">Delete</button>
+            </div>
           </div>
         </div>
         <!-- add comment -->
@@ -143,6 +151,9 @@ export default {
     deletePost(id) {
       this.$store.dispatch("deletePost", id)
       this.$router.go(-1)
+    },
+    deleteComment(cid) {
+      this.$store.dispatch("deleteComment", {postId:this.$route.params.postId,commentId:cid})
     },
     addComment() {
       this.$store.dispatch("addComment", {

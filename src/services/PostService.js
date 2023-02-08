@@ -64,4 +64,10 @@ export class PostService{
             'Content-Type': 'application/json'
         }});
     }
+    static removeComment(data){
+        let dataURL = `${this.serverURL}/posts/comment/remove`;
+        return axios.put(dataURL,data,{headers: {
+            'Content-Type': 'application/json'
+        }});
+    }
 }

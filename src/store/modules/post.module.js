@@ -107,6 +107,18 @@ const actions = {
             commit("SET_LOADING", false);
         }
     },
+    deleteComment: async function ({ commit },comment) {
+        try {
+            commit("SET_LOADING", true);
+            await PostService.removeComment(comment);
+            NotificationHelper.notificationhandler("Post updated successfully!")
+            store.dispatch("getPost",comment.postId)    
+            commit("SET_LOADING", false);
+        }catch (error) {
+            NotificationHelper.errorhandler(error)
+            commit("SET_LOADING", false);
+        }
+    },
     getPost: async function ({ commit },id) {
         try {
             commit("SET_LOADING", true);
