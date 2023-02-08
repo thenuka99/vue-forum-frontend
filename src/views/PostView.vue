@@ -29,7 +29,7 @@
             <p class=" text-justify mt-3">{{ postState.post.content }}</p>
           </div>
           <div class="flex mx-4">
-            <button class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"><i
+            <button class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white" @click="postState.post.votes.includes(userState.user._id) ? removeLike() : addLike()"><i
                 :class="[postState.post.votes.includes(userState.user._id) ? 'fa fa-thumbs-up text-green-600' : 'fa fa-thumbs-up text-gray-600']"></i>
               {{ postState.post.votes.length }}</button>
             <button v-if="postState.post.addedBy._id == userState.user._id"
@@ -180,6 +180,18 @@ export default {
         content: this.editedContent,
       })
       this.popup = false
+    },
+    addLike(){
+      this.$store.dispatch("like", {
+        postId: this.$route.params.postId,
+        addedBy: this.userState.user._id
+      })
+    },
+    removeLike(){
+      this.$store.dispatch("unlike", {
+        postId: this.$route.params.postId,
+        addedBy: this.userState.user._id
+      })
     },
   }
 }

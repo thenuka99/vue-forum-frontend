@@ -76,4 +76,16 @@ export class PostService{
             'Content-Type': 'application/json'
         }});
     }
+    static like(data){
+        let dataURL = `${this.serverURL}/posts/like`;
+        return axios.patch(dataURL,data,{headers: {
+            'Content-Type': 'application/json'
+        }});
+    }
+    static unlike(data){
+        let dataURL = `${this.serverURL}/posts/unlike`;
+        return axios.patch(dataURL,data,{headers: {
+            'Content-Type': 'application/json'
+        }});
+    }
 }

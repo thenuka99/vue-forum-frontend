@@ -95,11 +95,35 @@ const actions = {
             commit("SET_LOADING", false);
         }
     },
+    like: async function ({ commit },data) {
+        try {
+            commit("SET_LOADING", true);
+            await PostService.like(data);
+            NotificationHelper.notificationhandler("Like Added successfully!")
+            store.dispatch("getPost",data.postId)    
+            commit("SET_LOADING", false);
+        }catch (error) {
+            NotificationHelper.errorhandler(error)
+            commit("SET_LOADING", false);
+        }
+    },
+    unlike: async function ({ commit },data) {
+        try {
+            commit("SET_LOADING", true);
+            await PostService.unlike(data);
+            NotificationHelper.notificationhandler("Like removed successfully!")
+            store.dispatch("getPost",data.postId)    
+            commit("SET_LOADING", false);
+        }catch (error) {
+            NotificationHelper.errorhandler(error)
+            commit("SET_LOADING", false);
+        }
+    },
     addComment: async function ({ commit },comment) {
         try {
             commit("SET_LOADING", true);
             await PostService.addComment(comment);
-            NotificationHelper.notificationhandler("Post updated successfully!")
+            NotificationHelper.notificationhandler("Comment added successfully!")
             store.dispatch("getPost",comment.postId)    
             commit("SET_LOADING", false);
         }catch (error) {
@@ -111,7 +135,7 @@ const actions = {
         try {
             commit("SET_LOADING", true);
             await PostService.removeComment(comment);
-            NotificationHelper.notificationhandler("Post updated successfully!")
+            NotificationHelper.notificationhandler("Comment Removed successfully!")
             store.dispatch("getPost",comment.postId)    
             commit("SET_LOADING", false);
         }catch (error) {
@@ -123,7 +147,7 @@ const actions = {
         try {
             commit("SET_LOADING", true);
             await PostService.editComment(comment);
-            NotificationHelper.notificationhandler("Post updated successfully!")
+            NotificationHelper.notificationhandler("Comment Updated successfully!")
             store.dispatch("getPost",comment.postId)    
             commit("SET_LOADING", false);
         }catch (error) {
