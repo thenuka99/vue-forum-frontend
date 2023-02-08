@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-white shadow-lg">
+  <nav class="bg-white shadow-lg fixed top-0 left-0 right-0">
     <div class="max-w-6xl mx-auto px-4">
       <div class="flex justify-between">
         <div class="flex space-x-7">
@@ -74,9 +74,8 @@ export default defineComponent({
     return {
       navigation: [
         { name: "Home", href: "/" },
-        { name: "Team", href: "/category" },
-        { name: "About", href: "/about" },
-        { name: "Calendar", href: "/signin" },
+        { name: "About", href: "/about" },        
+        { name: "Admin panel", href: "/category" },
       ],
       menu: false,
     }
