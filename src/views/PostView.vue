@@ -3,10 +3,7 @@
   <!-- post page -->
   <!-- add forum btn -->
   <div class="div flex flex-row-reverse ml-4">
-    <button
-      class=" p-3 mx-5 mt-4 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 text-center">
-      <router-link to="/addforum"><i class="fa fa-add"></i> add new forum</router-link>
-    </button>
+    <add-forum-btn-component/>
   </div>
 
   <!-- content -->
@@ -45,7 +42,8 @@
         </div>
         <h1 class=" mt-5 text-left font-bold">Answers :</h1>
         <!-- answers -->
-        <div class=" bg-white rounded-lg pb-5 shadow-lg divide-slate-300 divide-y-2" v-if="postState.post.comments.length > 0">
+        <div class=" bg-white rounded-lg pb-5 shadow-lg divide-slate-300 divide-y-2"
+          v-if="postState.post.comments.length > 0">
           <div v-for="comment in postState.post.comments" v-bind:key="comment._id" class=" mx-2">
             <div class="w-full overflow-hidden text-xs flex ">
               <img class="h-8 w-8 rounded-full ml-4 my-4" :src="comment.addedBy.imageurl" alt="" />
@@ -59,11 +57,11 @@
             </div>
             <div class="flex mb-2">
               <button v-if="comment.addedBy._id == userState.user._id"
-              class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"><router-link
-                :to="`/editforum/${comment._id}`">Edit</router-link></button>
-            <button v-if="comment.addedBy._id == userState.user._id"
-              class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"
-              @click="deleteComment(comment._id)">Delete</button>
+                class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"
+                @click="setEditComment(comment.content, comment._id)">Edit</button>
+              <button v-if="comment.addedBy._id == userState.user._id"
+                class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"
+                @click="deleteComment(comment._id)">Delete</button>
             </div>
           </div>
         </div>
@@ -103,11 +101,11 @@
         </svg>
         <span class="sr-only">Close modal</span>
       </button>
-      <form class=" grid py-20" @submit.prevent="update" method="POST">
+      <form class=" grid py-20" @submit.prevent="EditComment" method="POST">
         <div class="">
-          <input id="content" name="content" type="text" v-model="content" autocomplete="content" required=""
+          <input id="content" name="content" type="text" v-model="editedContent" autocomplete="content" required=""
             class="relative block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm mb-2"
-            placeholder="add answer" />
+            placeholder="Edit Answer" />
         </div>
         <div>
           <button type="submit"
@@ -124,6 +122,7 @@
 import moment from 'moment';
 import CategoryListComponent from '@/components/CategoryListComponent.vue';
 import { mapGetters } from 'vuex';
+import AddForumBtnComponent from '@/components/AddForumBtnComponent.vue';
 
 export default {
   created() {
@@ -133,6 +132,8 @@ export default {
     return {
       popup: false,
       content: '',
+      editedContent: '',
+      commentId: ''
     }
   },
   computed: mapGetters({
@@ -140,7 +141,8 @@ export default {
     userState: "getUserState",
   }),
   components: {
-    CategoryListComponent
+    CategoryListComponent,
+    AddForumBtnComponent
   },
   methods: {
     formatDate(value) {
@@ -153,7 +155,7 @@ export default {
       this.$router.go(-1)
     },
     deleteComment(cid) {
-      this.$store.dispatch("deleteComment", {postId:this.$route.params.postId,commentId:cid})
+      this.$store.dispatch("deleteComment", { postId: this.$route.params.postId, commentId: cid })
     },
     addComment() {
       this.$store.dispatch("addComment", {
@@ -162,6 +164,22 @@ export default {
         addedBy: this.userState.user._id
       })
       this.closePopup()
+    },
+    setEditComment(content, commentId) {
+      this.commentId = commentId
+      this.editedContent = content
+      this.popup = true
+    },
+    closePopup() {
+      this.popup = false
+    },
+    EditComment() {
+      this.$store.dispatch("editComment", {
+        postId: this.$route.params.postId,
+        commentId: this.commentId,
+        content: this.editedContent,
+      })
+      this.popup = false
     },
   }
 }

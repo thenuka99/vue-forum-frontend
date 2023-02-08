@@ -70,4 +70,10 @@ export class PostService{
             'Content-Type': 'application/json'
         }});
     }
+    static editComment(data){
+        let dataURL = `${this.serverURL}/posts/comment/update`;
+        return axios.patch(dataURL,data,{headers: {
+            'Content-Type': 'application/json'
+        }});
+    }
 }
