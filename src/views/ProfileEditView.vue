@@ -49,7 +49,6 @@
 
 <script>
 import router from '@/router';
-import store from '@/store';
 import { mapGetters } from 'vuex'
 export default {
     computed: mapGetters({
@@ -70,8 +69,7 @@ export default {
     methods: {
         submit: async function () {
             this.$store.dispatch("updateUser", { _id:this.userState.user._id, name:this.user.name, bio:this.user.bio,imageurl:this.user.imageurl});
-             await this.$store.dispatch("getUser",{ token: store.getters.getUserState.token });
-            router.push('/profile')
+            router.go(-1)
         },
         setdata(){
             this.user.name=this.userState.user.name
