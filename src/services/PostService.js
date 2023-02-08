@@ -40,21 +40,27 @@ export class PostService{
             'Content-Type': 'application/json'
         }});
     }
-    static createPost(contact){
+    static createPost(post){
         let dataURL = `${this.serverURL}/posts/`;
-        return axios.post(dataURL,contact,{headers: {
+        return axios.post(dataURL,post,{headers: {
             'Content-Type': 'application/json'
         }});
     }
-    static updatePost(contact,contactID){
-        let dataURL = `${this.serverURL}/posts/${contactID}`;
-        return axios.put(dataURL,contact,{headers: {
+    static updatePost(post,postId){
+        let dataURL = `${this.serverURL}/posts/${postId}`;
+        return axios.put(dataURL,post,{headers: {
             'Content-Type': 'application/json'
         }});
     }
-    static deletePost(contactID){
-        let dataURL = `${this.serverURL}/posts/${contactID}`;
+    static deletePost(postId){
+        let dataURL = `${this.serverURL}/posts/${postId}`;
         return axios.delete(dataURL,{headers: {
+            'Content-Type': 'application/json'
+        }});
+    }
+    static addComment(data){
+        let dataURL = `${this.serverURL}/posts/comment`;
+        return axios.patch(dataURL,data,{headers: {
             'Content-Type': 'application/json'
         }});
     }

@@ -7,11 +7,11 @@ export class UserService{
         let dataURL = `${this.serverURL}/users`;
         return axios.get(dataURL);
     }
-    static getuser(userId){
+    static getUser(userId){
         let dataURL = `${this.serverURL}/users/${userId}`;
         return axios.get(dataURL);
     }
-    static updateuser(user,userId){
+    static updateUser(user,userId){
         let dataURL = `${this.serverURL}/users/${userId}`;
         return axios.put(dataURL,user);
     }
