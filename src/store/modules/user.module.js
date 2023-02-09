@@ -48,7 +48,7 @@ const actions = {
             commit("SET_LOADING", true);
             let response = await UserService.getAllUsers();
             console.log(response)
-            commit("SET_USERS", { users: response.data });
+            commit("SET_USERS", { users: response.data.data });
             commit("SET_LOADING", false);
         } catch (error) {
             NotificationHelper.errorhandler(error)
@@ -72,6 +72,17 @@ const actions = {
             let response = await UserService.getUser(user._id);            
             commit("SET_LOGGED_USER", { user: response.data.data })
             NotificationHelper.notificationhandler("User updated successfully!")
+            commit("SET_LOADING", false);
+        } catch (error) {
+            NotificationHelper.errorhandler(error)
+        }
+    },
+    updateUserRole: async function ({ commit },user) {
+        try {
+            commit("SET_LOADING", true);
+            await UserService.updateUser(user, user._id);   
+            store.dispatch('getUsers')
+            NotificationHelper.notificationhandler("UserRole change successfully!")
             commit("SET_LOADING", false);
         } catch (error) {
             NotificationHelper.errorhandler(error)
