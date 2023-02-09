@@ -13,8 +13,16 @@
           </div>
 
           <!-- Primary Navbar items -->
-          <div class="hidden md:flex items-center space-x-1">
-            <router-link v-for="item in navigation" :key="item.name" :to="item.href" :class="[
+          <div class="hidden md:flex items-center space-x-1" v-if="userState.user.isAdmin">
+            <router-link  v-for="item in adminNavigation" :key="item.name" :to="item.href" :class="[
+              item.isactive
+                ? 'bg-gray-900 text-white'
+                : 'text-black font-bold hover:bg-gray-700 hover:text-white',
+              'px-3 py-2 rounded-md text-sm font-medium',
+            ]">{{ item.name }}</router-link>
+          </div>
+          <div class="hidden md:flex items-center space-x-1" v-else>
+            <router-link  v-for="item in navigation" :key="item.name" :to="item.href" :class="[
               item.isactive
                 ? 'bg-gray-900 text-white'
                 : 'text-black font-bold hover:bg-gray-700 hover:text-white',
@@ -73,6 +81,10 @@ export default defineComponent({
   data() {
     return {
       navigation: [
+        { name: "Home", href: "/" },
+        { name: "About", href: "/about" },        
+      ],
+      adminNavigation: [
         { name: "Home", href: "/" },
         { name: "About", href: "/about" },        
         { name: "Admin panel", href: "/category" },

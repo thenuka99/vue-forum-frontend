@@ -28,6 +28,12 @@ const routes = [
     meta:{auth:true}
   },
   {
+    path: '/user',
+    name: 'userAdmin',
+    component: () => import('../views/UserAdminView.vue'),
+    meta:{auth:true,admin:true}
+  },
+  {
     path: '/about',
     name: 'about',
     component: () => import('../views/AboutView.vue'),
@@ -55,7 +61,7 @@ const routes = [
     path: '/category',
     name: 'category',
     component: () => import('../views/CategoryView.vue'),
-    meta:{auth:true}
+    meta:{auth:true,admin:true}
   },
   {
     path: '/signup',
@@ -84,9 +90,9 @@ const router = createRouter({
 router.beforeEach((to,from,next)=>{
   if(to.meta.auth && !store.getters.getUserState.user){
     next('/signin')
-  // }else if(store.getters.getUserState.isLoading || store.getters.getCategoryState.isLoading || store.getters.getPostState.isLoading){
-  //   next('/loading')
   }else if(!to.meta.auth && store.getters.getUserState.user){
+    next('/')
+  }else if(to.meta.admin && !store.getters.getUserState.user.isAdmin){
     next('/')
   }else{
     next();

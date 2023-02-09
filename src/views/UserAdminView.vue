@@ -7,7 +7,7 @@
                 <th class=" screen-md:hidden">Email</th>
                 <th class=" screen-md:hidden">Created At</th>
                 <th class=" screen-md:hidden">Updated At</th>
-                <th>Admin</th>
+                <th>Role</th>
                 <th>Change Role</th>
             </thead>
             <tbody>
