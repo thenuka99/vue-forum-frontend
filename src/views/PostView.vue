@@ -40,6 +40,7 @@
               @click="deletePost(postState.post._id)">Delete</button>
           </div>
         </div>
+        
         <h1 class=" mt-5 text-left font-bold">Answers :</h1>
         <!-- answers -->
         <div class=" bg-white rounded-lg pb-5 shadow-lg divide-slate-300 divide-y-2"
@@ -55,7 +56,8 @@
             <div class=" mx-4 my-3">
               <p class=" text-justify mt-3">{{ comment.content }}</p>
             </div>
-            <div class="flex mb-2">
+            <!-- btn sec -->
+            <div class="flex mb-2 ml-3">
               <button v-if="comment.addedBy._id == userState.user._id"
                 class=" px-3 rounded-md bg-slate-300 mr-2 hover:bg-slate-400 hover:text-white"
                 @click="setEditComment(comment.content, comment._id)">Edit</button>
@@ -65,6 +67,7 @@
             </div>
           </div>
         </div>
+        
         <!-- add comment -->
         <div class=" bg-white rounded-lg shadow-lg px-5 mt-2">
           <form class=" grid pt-10 pb-5" @submit.prevent="addComment" method="POST">

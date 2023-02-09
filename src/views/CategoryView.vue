@@ -17,7 +17,7 @@
     </div>
 
     <!-- category list -->
-    <div class=" bg-slate-200 mx-7 rounded-lg shadow-sm">
+    <div class=" bg-slate-200 mx-7 rounded-lg shadow-sm mb-10">
         <table class=" w-full overflow-scroll">
             <thead>
                 <th>Name</th>
@@ -76,12 +76,15 @@
             </form>
         </div>
     </div>
+    <admin-speed-menu />
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import moment from 'moment'
+import AdminSpeedMenu from '@/components/AdminSpeedMenu.vue'
 export default {
+    components: { AdminSpeedMenu },
     computed: mapGetters({
         categoryState: "getCategoryState",
         userState: "getUserState",
