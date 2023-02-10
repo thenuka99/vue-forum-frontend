@@ -13,7 +13,7 @@
           </div>
 
           <!-- Primary Navbar items -->
-          <div class="hidden md:flex items-center space-x-1" v-if="userState.user.isAdmin">
+          <div class="hidden md:flex items-center space-x-1" v-if="userState.user && userState.user.isAdmin">
             <router-link  v-for="item in adminNavigation" :key="item.name" :to="item.href" :class="[
               item.isactive
                 ? 'bg-gray-900 text-white'
