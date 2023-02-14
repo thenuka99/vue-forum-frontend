@@ -54,22 +54,22 @@ const actions = {
             NotificationHelper.errorhandler(error)
         }
     },
-    deleteUser: async function ({ commit },id) {
-        try {            
+    deleteUser: async function ({ commit }, id) {
+        try {
             commit("SET_LOADING", true);
             await UserService.deleteUser(id);
-            NotificationHelper.notificationhandler("User deleted successfully!")            
+            NotificationHelper.notificationhandler("User deleted successfully!")
             commit("SET_LOADING", false);
             store.dispatch(this.logout)
         } catch (error) {
             NotificationHelper.errorhandler(error)
         }
     },
-    updateUser: async function ({ commit },user) {
+    updateUser: async function ({ commit }, user) {
         try {
             commit("SET_LOADING", true);
-            await UserService.updateUser(user, user._id);   
-            let response = await UserService.getUser(user._id);            
+            await UserService.updateUser(user, user._id);
+            let response = await UserService.getUser(user._id);
             commit("SET_LOGGED_USER", { user: response.data.data })
             NotificationHelper.notificationhandler("User updated successfully!")
             commit("SET_LOADING", false);
@@ -77,10 +77,10 @@ const actions = {
             NotificationHelper.errorhandler(error)
         }
     },
-    updateUserRole: async function ({ commit },user) {
+    updateUserRole: async function ({ commit }, user) {
         try {
             commit("SET_LOADING", true);
-            await UserService.updateUser(user, user._id);   
+            await UserService.updateUser(user, user._id);
             store.dispatch('getUsers')
             NotificationHelper.notificationhandler("UserRole change successfully!")
             commit("SET_LOADING", false);
@@ -88,40 +88,51 @@ const actions = {
             NotificationHelper.errorhandler(error)
         }
     },
-    signup: async function ({ commit },user) {
+    signup: async function ({ commit }, user) {
         try {
             commit("SET_LOADING", true);
-            await AuthService.signup(user);
-            NotificationHelper.notificationhandler("User registered successfully!")
-            commit("SET_LOADING", false);
-            return router.push("/signin");
+            const response = await AuthService.signup(user);
+            console.log(response)
+            if (response.data.status == 200) {
+                NotificationHelper.notificationhandler("User registered successfully!")
+                commit("SET_LOADING", false);
+                return router.push("/signin");
+            } else {
+                NotificationHelper.errorhandler("error")
+            }
         } catch (error) {
             NotificationHelper.errorhandler(error)
         }
     },
     login: async function ({ commit }, user) {
         try {
-            let response = await AuthService.login(user);
-            commit("SET_TOKEN", { token: response.data.data })
-            store.dispatch('getUser', { token: response.data.data })     
+            const response = await AuthService.login(user);
+            if (response.data.status == 200) {
+                commit("SET_TOKEN", { token: response.data.data })
+                store.dispatch('getUser', { token: response.data.data })
+            } else {
+                NotificationHelper.errorhandler(response.data.msg)
+                console.log(response.data.msg)
+            }
         } catch (error) {
             this.errorhandler(error)
         }
     },
     logout: async function ({ commit }) {
         commit("SET_LOGGED_USER", { contact: null });
+        commit("SET_TOKEN", { token: null });
     },
     getUser: async function ({ commit }, token) {
         try {
             let response = await AuthService.getUserDetails(token);
             commit("SET_LOGGED_USER", { user: response.data.data })
-            NotificationHelper.notificationhandler("Successfully login in!")                   
+            NotificationHelper.notificationhandler("Successfully login in!")
             return router.push("/");
         } catch (error) {
             NotificationHelper.errorhandler(error)
         }
     },
-    
+
 }
 
 export default {
