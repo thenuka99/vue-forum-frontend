@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import { PostService } from '@/services/PostService';
 export default {
 data(){
     return{
@@ -20,9 +19,10 @@ data(){
     }
 },
 methods:{
-   async search(){
-        let response = await PostService.search(this.searchTerm);
-        console.log(response)
+   search(){
+    this.$router.push(`/search/${this.searchTerm}`);
+        // let response = await PostService.search(this.searchTerm);
+        // console.log(response)
     }
 }
 

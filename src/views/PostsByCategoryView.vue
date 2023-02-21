@@ -6,8 +6,13 @@
             iusto velit vero optio non, corporis dicta sit? Totam labore impedit
             laboriosam. Molestiae, similique.
         </div>
+
+        <div class=" mx-4 mt-3">
+            <SearchBarComponent />
+        </div>
+
         <div class="div flex flex-row-reverse ml-4">
-            <add-forum-btn-component/>
+            <add-forum-btn-component />
         </div>
         <div>
             <!-- content -->
@@ -36,6 +41,7 @@ import PostListComponent from "@/components/PostListComponent.vue";
 import CategoryListComponent from "@/components/CategoryListComponent.vue";
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import AddForumBtnComponent from '@/components/AddForumBtnComponent.vue';
+import SearchBarComponent from "@/components/SearchBarComponent.vue";
 
 export default {
     name: "HomeView",
@@ -73,10 +79,11 @@ export default {
         }
     },
     components: {
-        PostListComponent,
-        CategoryListComponent,
-        PaginationComponent,
-        AddForumBtnComponent
-    }
+    PostListComponent,
+    CategoryListComponent,
+    PaginationComponent,
+    AddForumBtnComponent,
+    SearchBarComponent
+}
 };
 </script>

@@ -16,6 +16,12 @@ const routes = [
     meta:{auth:true}
   },
   {
+    path: '/search/:searchTerm',
+    name: 'searchpage',
+    component: () => import('../views/SearchResults.vue'),
+    meta:{auth:true}
+  },
+  {
     path: '/post/:postId',
     name: 'postPage',
     component: () => import('../views/PostView.vue'),
