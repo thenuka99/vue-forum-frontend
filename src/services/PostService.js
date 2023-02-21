@@ -88,4 +88,10 @@ export class PostService{
             'Content-Type': 'application/json'
         }});
     }
+    static search(data){
+        let dataURL = `${this.serverURL}/posts/searchTerm/${data}`;
+        return axios.get(dataURL,data,{headers: {
+            'Content-Type': 'application/json'
+        }});
+    }
 }

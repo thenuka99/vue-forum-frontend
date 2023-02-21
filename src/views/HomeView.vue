@@ -12,6 +12,11 @@
       minima accusamus quas id nemo provident aut quod quia, nesciunt eligendi atque.
     </p>
   </div>
+
+  <div class=" mx-4 mt-3">
+    <search-bar-component/>
+  </div>
+
   <div class="div flex flex-row-reverse ml-4">
     <add-forum-btn-component />
   </div>
@@ -41,6 +46,7 @@ import PostListComponent from "@/components/PostListComponent.vue";
 import CategoryListComponent from "@/components/CategoryListComponent.vue";
 import PaginationComponent from '@/components/PaginationComponent.vue';
 import AddForumBtnComponent from '@/components/AddForumBtnComponent.vue';
+import SearchBarComponent from '@/components/SearchBarComponent.vue';
 
 export default {
   name: "HomeView",
@@ -68,6 +74,7 @@ export default {
     CategoryListComponent,
     PaginationComponent,
     AddForumBtnComponent,
+    SearchBarComponent,
   }
 };
 </script>
