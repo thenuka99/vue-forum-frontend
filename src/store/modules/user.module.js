@@ -98,7 +98,7 @@ const actions = {
                 commit("SET_LOADING", false);
                 return router.push("/signin");
             } else {
-                NotificationHelper.errorhandler("error")
+                NotificationHelper.errorhandler(response.data.msg)
             }
         } catch (error) {
             NotificationHelper.errorhandler(error)
