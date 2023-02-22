@@ -69,6 +69,22 @@ const actions = {
             commit("SET_LOADING", false);
         }
     },
+    getAllPostsOfSearch: async function ({ commit }, payload) {
+        try {
+            commit("SET_LOADING", true);
+            let response = await PostService.search(payload.searchTerm, payload.page);
+            if (response.data.status == 200) {
+                console.log(response.data.data)
+            } else {
+                NotificationHelper.errorhandler(response.data.msg)
+            }
+            commit("SET_POSTS", { posts: response.data.data, totalPages: response.data.data.totalPages });
+            commit("SET_LOADING", false);
+        } catch (error) {
+            NotificationHelper.errorhandler(error)
+            commit("SET_LOADING", false);
+        }
+    },
     getAllPostsOfUser: async function ({ commit }, payload) {
         try {
             commit("SET_LOADING", true);

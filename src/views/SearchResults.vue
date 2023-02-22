@@ -40,16 +40,27 @@ export default {
     }),
     created: function () {
         this.$watch(
-            () => this.$route.query,
+            () => this.$route.params,
             () => {
-                this.$store.dispatch("getAllPosts", this.$route.query.page);
+                this.getAllPostsOfSearch();
             },
-        )
+        ),
+            this.$watch(
+                () => this.$route.query,
+                () => {
+                    this.getAllPostsOfSearch();
+                    console.log("query", this.$route.query.page)
+                },
+            ),
+            this.getAllPostsOfSearch();
     },
     methods: {
+        getAllPostsOfSearch() {
+            this.$store.dispatch("getAllPostsOfSearch", { searchTerm: this.$route.params.searchTerm, page: this.$route.query.page });
+        },
         getPage(page) {
             this.page = page
-            this.$router.push({ name: "home", query: { page: page } })
+            this.$router.push({ name: "searchpage", params: { searchTerm: this.$route.params.searchTerm }, query: { page: page } })
         }
     },
     components: {
